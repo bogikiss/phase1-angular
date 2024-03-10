@@ -1,0 +1,58 @@
+<div>
+    <form [formGroup] = "foodDiaryForm" (ngSubmit) = "onSubmit()">
+
+        <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Food</mat-label>
+            <input matInput id="food" type="text" formControlName="food">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+
+        <!--x -->
+          <div id="add-button">
+            <button mat-mini-fab color="black" (click)="openDialog()" aria-label="Example icon button with a plus one icon">
+                <mat-icon>plus_one</mat-icon>
+              </button>
+        </div>
+          <!--x -->
+          
+          <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Client</mat-label>
+            <input matInput id="client" type="text" formControlName="client">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+
+          <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Day Of Consumption</mat-label>
+            <input matInput id="dayOfConsumption" type="text" formControlName="dayOfConsumption">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+
+          <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Meal</mat-label>
+            <input matInput id="meal" type="text" formControlName="meal">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+
+          <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Quantity In Grams</mat-label>
+            <input matInput id="quantityInGrams" type="text" formControlName="quantityInGrams">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+
+          <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Observations</mat-label>
+            <input matInput id="observations" type="text" formControlName="observations">
+          </mat-form-field>
+
+          <div>
+        <button mat-raised-button color="primary" style="margin: 10px 10px 10px 10px" type="submit">Save</button>
+        <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+    </div>
+    </form>
+    
+</div>

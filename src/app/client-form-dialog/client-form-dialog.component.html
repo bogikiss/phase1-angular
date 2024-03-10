@@ -1,0 +1,24 @@
+<p>client-form-dialog works!</p>
+
+<div>
+    <form [formGroup] = "clientForm" (ngSubmit) = "onSubmit()">
+
+        <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Client ID</mat-label>
+            <input matInput id="clientId" type="text" formControlName="clientId">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+          
+          <mat-form-field appearance="fill" style="margin: 1px 10px 1px 10px">
+            <mat-label>Full name</mat-label>
+            <input matInput id="fullName" type="text" formControlName="fullName">
+          </mat-form-field>
+
+          <div>
+        <button mat-raised-button color="primary" style="margin: 10px 10px 10px 10px" type="submit">Save</button>
+        <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+    </div>
+    </form>
+    
+</div>

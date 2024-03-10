@@ -1,7 +1,9 @@
 export interface FooddiaryModel{
     id:number,
-    food: {foodId:number,nameOfFood:string},
+    food:string,
     client: {clientId:number, fullName:string},
+    dayOfConsumption: Date,
+    meal:any,
     quantityInGrams: number
-
+    observations:string
 }

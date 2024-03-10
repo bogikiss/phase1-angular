@@ -1,27 +1,65 @@
-<p>fooddiary works!</p>
+<div class="mat-elevation-z8 card">
 
-<div class="center">
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Food</th>
-                <th>Client</th>
-                <th>Quantity</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let diary of fooddiary">
-                <td> {{ diary.id }}</td>
-                <td> {{ diary.food.nameOfFood }}</td>
-                <td> {{ diary.client.fullName }}</td>
-                <td> {{ diary.quantityInGrams }}</td>
-                <td>
-                    <button (click)="update()"> UPDATE </button>
-                    <button (click)="delete()"> DELETE </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="add-button">
+        <button mat-mini-fab color="black" (click)="openDialog()" aria-label="Example icon button with a plus one icon">
+            <mat-icon>plus_one</mat-icon>
+          </button>
+    </div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let diary"> {{diary.id}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="food">
+      <th mat-header-cell *matHeaderCellDef> Food </th>
+      <td mat-cell *matCellDef="let diary"> {{diary.food}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="client">
+      <th mat-header-cell *matHeaderCellDef> Client </th>
+      <td mat-cell *matCellDef="let diary"> {{diary.client.fullName}} </td>
+    </ng-container>
+ 
+    <ng-container matColumnDef="dayOfConsumption">
+      <th mat-header-cell *matHeaderCellDef> Day of consumption </th>
+      <td mat-cell *matCellDef="let diary"> {{diary.dayOfConsumption}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="meal">
+        <th mat-header-cell *matHeaderCellDef> Meal </th>
+        <td mat-cell *matCellDef="let diary"> {{diary.meal}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantityInGrams">
+        <th mat-header-cell *matHeaderCellDef> Quantity in g/ml </th>
+        <td mat-cell *matCellDef="let diary"> {{diary.quantityInGrams}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="observations">
+        <th mat-header-cell *matHeaderCellDef> Observations </th>
+        <td mat-cell *matCellDef="let diary"> {{diary.observations}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let diary"> 
+            <button mat-button color="primary" (click)="openDialog()"> UPDATE </button>
+            <button mat-button color="warn" (click)="deleteFoodDiary(diary.id)"> DELETE </button> 
+        </td>
+      </ng-container>
+
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 [length]="100"
+                 showFirstLastButtons
+                 aria-label="Select page">
+  </mat-paginator>
+
 </div>

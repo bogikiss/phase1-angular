@@ -30,4 +30,9 @@ export class FoodDiaryService {
   getAllClients(): Observable<any> {
     return this.httpClient.get("http://localhost:8080/clients")
   }
+
+  updateFoodDiary(id: string, request:FooddiaryModel): Observable<any>{
+    console.log("http://localhost:8080/food-diaries/" + id);
+    return this.httpClient.put("http://localhost:8080/food-diaries/" + id, request);
+  }
 }

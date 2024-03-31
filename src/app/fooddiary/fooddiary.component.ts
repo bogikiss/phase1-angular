@@ -50,17 +50,24 @@ export class FooddiaryComponent implements AfterViewInit{
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog(): void{
+  openDialog(diary?: FooddiaryModel): void{
     const dialogRef = this.dialog.open(FoodDiaryFormDialogComponent, {
       width: '500px',
       backdropClass: 'custom-dialog-backdrop-class',
       panelClass: 'custom-dialog-panel-class',
-      data: 'Some data'
+      data: diary
     });
 
     dialogRef.afterClosed().subscribe(res=>{
       console.log(res)
-      this.fooddiaryService.addFoodDiary(res.data).subscribe();
+      if(res.event === 'add'){
+        this.fooddiaryService.addFoodDiary(res.data).subscribe();
+      } else if(res.event === 'update'){
+        if(diary){
+          this.fooddiaryService.updateFoodDiary(diary.id.toString(), res.data).subscribe();
+        }}
+
+       // this.fooddiaryService.addFoodDiary(res.data).subscribe();
       location.reload();
     })
   }

@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { FormControl,FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl,FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {
@@ -17,15 +17,20 @@ import { FoodDiaryService } from '../services/food-diary.service';
 import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { ClientModel } from '../models/client.model';
 import {MatIconModule} from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FooddiaryModel } from '../models/fooddiary.model';
+
 
 @Component({
   selector: 'app-food-diary-form-dialog',
   standalone: true,
-  imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatDividerModule, MatIconModule],
+  imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatDividerModule, MatIconModule, FormsModule, MatFormFieldModule, MatSelectModule],
   templateUrl: './food-diary-form-dialog.component.html',
   styleUrl: './food-diary-form-dialog.component.css'
 })
-export class FoodDiaryFormDialogComponent {
+
+export class FoodDiaryFormDialogComponent implements OnInit{
   foodDiaryForm = new FormGroup({
     food: new FormControl(''),
     client: new FormControl(''),
@@ -34,9 +39,9 @@ export class FoodDiaryFormDialogComponent {
     quantityInGrams: new FormControl(''),
     observations: new FormControl('')
   });
-  dataSource: MatTableDataSource<ClientModel>;
-
-
+  //dataSource: MatTableDataSource<ClientModel>; //?????
+  currentFoodDiary: FooddiaryModel;
+  
   constructor(
     public dialogRef: MatDialogRef<FoodDiaryFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -44,21 +49,24 @@ export class FoodDiaryFormDialogComponent {
     private fooddiaryService: FoodDiaryService
     ){
       console.log(data);
+      this.currentFoodDiary = data;
+      }
 
-      this.fooddiaryService.getAllClients().subscribe(res => {
-        this.dataSource = new MatTableDataSource<ClientModel>(res.map((diary:any) =>{
-          return {
-            clientId: diary.clientId,
-            fullName: diary.fullName
-          }
-        }));
-      })
-    }
+      ngOnInit(): void{
+        if(this.currentFoodDiary){
+          this.foodDiaryForm.controls.food.setValue(this.currentFoodDiary.food);
+          this.foodDiaryForm.controls.client.setValue(this.currentFoodDiary.client.clientId.toString());
+          this.foodDiaryForm.controls.dayOfConsumption.setValue(this.currentFoodDiary.dayOfConsumption);
+          this.foodDiaryForm.controls.meal.setValue(this.currentFoodDiary.meal);
+          this.foodDiaryForm.controls.quantityInGrams.setValue(this.currentFoodDiary.quantityInGrams.toString());
+          this.foodDiaryForm.controls.observations.setValue(this.currentFoodDiary.observations);
+        }
+      }
 
     onSubmit(): void{
       const newFoodDiary = {
           food: this.foodDiaryForm.controls.food.getRawValue(),
-          client: this.foodDiaryForm.controls.client.getRawValue(),
+          client: { "clientId":  this.foodDiaryForm.controls.client.getRawValue() },
           dayOfConsumption: this.foodDiaryForm.controls.dayOfConsumption.getRawValue(),
           meal: this.foodDiaryForm.controls.meal.getRawValue(),
           quantityInGrams: this.foodDiaryForm.controls.quantityInGrams.getRawValue(),
@@ -66,29 +74,31 @@ export class FoodDiaryFormDialogComponent {
       }
 
       console.log(newFoodDiary);
-      this.dialogRef.close({data:newFoodDiary})
+      /*this.dialogRef.close({data:newFoodDiary})
+      location.reload();*/
+      if(this.currentFoodDiary){
+        this.dialogRef.close({
+          event: "update",
+          data: newFoodDiary
+        })
+      } else {
+        this.dialogRef.close({
+          event: "add",
+          data: newFoodDiary
+        })
+      }
+      location.reload();
+      
     }
 
     close(): void{
-        this.dialogRef.close();
+        this.dialogRef.close(
+          {event:"cancel"}
+        );
     }
 
-    //x
-    openDialog(): void{
-      const dialogRef = this.dialog.open(ClientFormDialogComponent, {
-        width: '500px',
-        backdropClass: 'custom-dialog-backdrop-class',
-        panelClass: 'custom-dialog-panel-class',
-        data: 'Some data'
-      });
-  
-      dialogRef.afterClosed().subscribe(res=>{
-        console.log(res)
-        this.fooddiaryService.addClient(res.data).subscribe();
-        location.reload();
-      })
-    }
-
-    //x
+    /*close(): void{
+      this.dialogRef.close();
+  }*/
 
 }

@@ -1,8 +1,8 @@
 .card{
     margin: auto;
-    width: 96%;
+    width: 60%;
     padding: 10px;
-    background-color: #C3CEAF;
+    background-color: #AFC3CE;
 }
 
 #add-button{
@@ -10,11 +10,12 @@
     margin: 10px 10px 10px 10px;
 }
 
-#clients-button{
+#fooddiary-button{
   float: right;
   margin: 10px 10px 10px 10px;
 }
   
+
 span {
     font-size: 40px;
   }

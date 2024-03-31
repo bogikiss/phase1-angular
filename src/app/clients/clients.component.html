@@ -1,0 +1,66 @@
+<div class="mat-elevation-z8 card">
+  <br>
+  <span> Clients </span>
+
+  <div id="fooddiary-button">
+    <button mat-raised-button onclick="window.location.href='food-diary'">Switch to Food diary</button>
+  </div>
+
+    <div id="add-button">
+        <button mat-mini-fab color="black" (click)="openDialog()" aria-label="Example icon button with a plus one icon">
+            <mat-icon>plus_one</mat-icon>
+          </button>
+    </div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="clientId">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let client"> {{client.clientId}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="fullName">
+      <th mat-header-cell *matHeaderCellDef> Full name </th>
+      <td mat-cell *matCellDef="let client"> {{client.fullName}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="age">
+      <th mat-header-cell *matHeaderCellDef> Age </th>
+      <td mat-cell *matCellDef="let client"> {{client.age}} </td>
+    </ng-container>
+ 
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef> Gender </th>
+      <td mat-cell *matCellDef="let client"> {{client.gender}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="height">
+        <th mat-header-cell *matHeaderCellDef> Height in cm </th>
+        <td mat-cell *matCellDef="let client"> {{client.height}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight in kg </th>
+        <td mat-cell *matCellDef="let client"> {{client.weight}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let client"> 
+            <button mat-button color="primary" (click)="openDialog(client)"> UPDATE </button>
+            <button mat-button color="warn" (click)="deleteClient(client.clientId)"> DELETE </button> 
+        </td>
+      </ng-container>
+
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 [length]="100"
+                 showFirstLastButtons
+                 aria-label="Select page">
+  </mat-paginator>
+
+</div>

@@ -69,6 +69,7 @@ export class ClientFormDialogComponent implements OnInit{
         this.dialogRef.close({
           event:"update",
           data:newClient})
+          location.reload();
       } else {
         this.dialogRef.close({
         event:"add",
